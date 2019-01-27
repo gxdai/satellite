@@ -1,0 +1,93 @@
+id:     1,	 name: Planes                   ,	supercategory: Planes                   
+id:     2,	 name: Civilian Passenger       ,	supercategory: Planes                   
+id:     3,	 name: Civ Jet                  ,	supercategory: Planes                   
+id:     4,	 name: Civ Light Aircraft       ,	supercategory: Planes                   
+id:     5,	 name: Civ Transport            ,	supercategory: Planes                   
+id:     6,	 name: Mil Bomber               ,	supercategory: Planes                   
+id:     7,	 name: Mil Fighter              ,	supercategory: Planes                   
+id:     8,	 name: Mil Transport            ,	supercategory: Planes                   
+id:     9,	 name: Plane Engine             ,	supercategory: Planes                   
+id:    10,	 name: Ships                    ,	supercategory: Ships                    
+id:    11,	 name: Destroyer                ,	supercategory: Ships                    
+id:    12,	 name: Frigate                  ,	supercategory: Ships                    
+id:    13,	 name: Cruiser                  ,	supercategory: Ships                    
+id:    14,	 name: Aircraft Carrier         ,	supercategory: Ships                    
+id:    15,	 name: Cargo Ship               ,	supercategory: Ships                    
+id:    16,	 name: Boats                    ,	supercategory: Ships                    
+id:    17,	 name: Submarines               ,	supercategory: Ships                    
+id:    18,	 name: Sailing Ships/Boats      ,	supercategory: Ships                    
+id:    19,	 name: Tanker                   ,	supercategory: Ships                    
+id:    20,	 name: Helicopter               ,	supercategory: Helicopter               
+id:    21,	 name: Civilian                 ,	supercategory: Helicopter               
+id:    22,	 name: Military                 ,	supercategory: Helicopter               
+id:    23,	 name: Vehicles                 ,	supercategory: Vehicles                 
+id:    24,	 name: Cars                     ,	supercategory: Vehicles                 
+id:    25,	 name: Pickup Trucks            ,	supercategory: Vehicles                 
+id:    26,	 name: Motorcycles              ,	supercategory: Vehicles                 
+id:    27,	 name: Semi Truck               ,	supercategory: Vehicles                 
+id:    28,	 name: Bus                      ,	supercategory: Vehicles                 
+id:    29,	 name: Ambulance                ,	supercategory: Vehicles                 
+id:    30,	 name: Fire Truck               ,	supercategory: Vehicles                 
+id:    31,	 name: Bridges                  ,	supercategory: Bridges                  
+id:    32,	 name: Pedestrian               ,	supercategory: Pedestrian               
+id:    33,	 name: Buildings                ,	supercategory: Buildings                
+id:    34,	 name: Mosques                  ,	supercategory: Buildings                
+id:    35,	 name: Towers                   ,	supercategory: Buildings                
+id:    36,	 name: Residential              ,	supercategory: Buildings                
+id:    37,	 name: Other                    ,	supercategory: Buildings                
+id:    38,	 name: Greenhouse               ,	supercategory: Buildings                
+id:    39,	 name: Warehouses               ,	supercategory: Buildings                
+id:    40,	 name: Parking Lots             ,	supercategory: Parking Lots             
+id:    41,	 name: Air Traffic Control Tower,	supercategory: Airports                 
+id:    42,	 name: Runway                   ,	supercategory: Airports                 
+id:    43,	 name: Hangar                   ,	supercategory: Airports                 
+id:    44,	 name: Taxiways                 ,	supercategory: Airports                 
+id:    45,	 name: Aprons                   ,	supercategory: Airports                 
+id:    46,	 name: Helipad                  ,	supercategory: Airports                 
+id:    47,	 name: Satellite Dish           ,	supercategory: Satellite Dish           
+id:    48,	 name: Solar Panels             ,	supercategory: Solar Panels             
+id:    49,	 name: Storage Tank             ,	supercategory: Storage Tank             
+id:    50,	 name: Roundabout               ,	supercategory: Roundabout               
+id:    51,	 name: Swimming Pool            ,	supercategory: Swimming Pool            
+id:    52,	 name: Sports Stadium/Field     ,	supercategory: Sports Stadium/Field     
+id:    53,	 name: Tennis Court             ,	supercategory: Sports Stadium/Field     
+id:    54,	 name: Basketball Court         ,	supercategory: Sports Stadium/Field     
+id:    55,	 name: Soccer Field             ,	supercategory: Sports Stadium/Field     
+id:    56,	 name: Baseball Diamond         ,	supercategory: Sports Stadium/Field     
+id:    57,	 name: Stadium                  ,	supercategory: Sports Stadium/Field     
+id:    58,	 name: Athletic Track           ,	supercategory: Sports Stadium/Field     
+id:    59,	 name: Rail(train)              ,	supercategory: Rail(train)              
+id:    60,	 name: Intersection/Crossroads  ,	supercategory: Intersection/Crossroads  
+id:    61,	 name: Shipping Container Lot   ,	supercategory: Shipping Container Lot   
+id:    62,	 name: Shipping Containers      ,	supercategory: Shipping Containers      
+id:    63,	 name: Crane                    ,	supercategory: Crane                    
+id:    64,	 name: Construction             ,	supercategory: Crane                    
+id:    65,	 name: Floating                 ,	supercategory: Crane                    
+id:    66,	 name: Gantry                   ,	supercategory: Crane                    
+id:    67,	 name: Tower                    ,	supercategory: Crane                    
+id:    68,	 name: Train                    ,	supercategory: Train                    
+id:    69,	 name: Engine                   ,	supercategory: Train                    
+id:    70,	 name: Boxcar                   ,	supercategory: Train                    
+id:    71,	 name: Passenger Car            ,	supercategory: Train                    
+id:    72,	 name: Flatbed Car              ,	supercategory: Train                    
+id:    73,	 name: Hopper                   ,	supercategory: Train                    
+id:    74,	 name: Tanker                   ,	supercategory: Train                    
+id:    75,	 name: Breakwater               ,	supercategory: Port                     
+id:    76,	 name: Pier                     ,	supercategory: Port                     
+id:    77,	 name: Quay                     ,	supercategory: Port                     
+id:    78,	 name: Harbor                   ,	supercategory: Port                     
+id:    79,	 name: Drydocks                 ,	supercategory: Port                     
+id:    80,	 name: Floating Docks           ,	supercategory: Port                     
+id:    81,	 name: Slip                     ,	supercategory: Port                     
+id:    82,	 name: Telephone Poles          ,	supercategory: Telephone Poles          
+id:    83,	 name: Hovercraft               ,	supercategory: Hovercraft               
+id:    84,	 name: Mil Vehicles             ,	supercategory: Mil Vehicles             
+id:    85,	 name: Tanks                    ,	supercategory: Mil Vehicles             
+id:    86,	 name: Self-propelled Artillery ,	supercategory: Mil Vehicles             
+id:    87,	 name: Towed Artillery          ,	supercategory: Mil Vehicles             
+id:    88,	 name: APC                      ,	supercategory: Mil Vehicles             
+id:    89,	 name: Fighting Veh.            ,	supercategory: Mil Vehicles             
+id:    90,	 name: Support Vehicles         ,	supercategory: Mil Vehicles             
+id:    91,	 name: Missiles/Missile Systems ,	supercategory: Missiles/Missile Systems 
+id:    92,	 name: Comms Towers             ,	supercategory: Comms Towers             
+id:    93,	 name: Power Station            ,	supercategory: Power Station            

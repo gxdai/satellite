@@ -1,0 +1,69 @@
+Buildings:               	9109
+Vehicles:                	7376
+Comms Towers:            	39
+Other:                   	543
+Cars:                    	54804
+Bus:                     	325
+Semi Truck:              	934
+Storage Tank:            	377
+Intersection/Crossroads: 	522
+Pickup Trucks:           	164
+Missiles/Missile Systems:	5
+Shipping Containers:     	17681
+Tennis Court:            	47
+Flatbed Car:             	49
+Bridges:                 	64
+Telephone Poles:         	35
+Solar Panels:            	106
+Basketball Court:        	23
+Tower:                   	9
+Greenhouse:              	7
+Swimming Pool:           	335
+Roundabout:              	33
+Warehouses:              	354
+Crane:                   	25
+Fighting Veh.:           	1
+Construction:            	13
+Boats:                   	794
+Ships:                   	2669
+Parking Lots:            	796
+Cargo Ship:              	45
+Planes:                  	990
+Helicopter:              	385
+Taxiways:                	17
+Tanks:                   	13
+Boxcar:                  	7
+Mosques:                 	2
+Towed Artillery:         	1
+Pier:                    	20
+Residential:             	27282
+Cruiser:                 	1
+Towers:                  	8
+Mil Vehicles:            	1
+Drydocks:                	1
+Submarines:              	6
+Shipping Container Lot:  	36
+Breakwater:              	11
+Hangar:                  	7
+Aprons:                  	18
+Runway:                  	36
+Civ Jet:                 	392
+Helipad:                 	5
+Plane Engine:            	180
+Motorcycles:             	6
+Mil Bomber:              	2139
+Baseball Diamond:        	25
+Soccer Field:            	11
+Passenger Car:           	1
+Pedestrian:              	7
+Military:                	7
+Sports Stadium/Field:    	3
+Tanker:                  	1
+Destroyer:               	5
+Quay:                    	1
+Athletic Track:          	4
+APC:                     	8
+Harbor:                  	5
+Aircraft Carrier:        	2
+Ambulance:               	5
+Mil Fighter:             	139
