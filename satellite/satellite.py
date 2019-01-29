@@ -1004,7 +1004,7 @@ class SatelliteConfig(Config):
     RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
 
     # Reduce ROIs per image because the images are small and have few objects. Aim to allow ROI sampling to pick 33%  positive ROIs.
-    # TRAIN_ROIS_PER_IMAGE = 100
+    # TRAIN_ROIS_PER_IMAGE = 300
 
     # Use a small epoch since the data is simple.
     STEPS_PER_EPOCH = 300

@@ -255,6 +255,8 @@ def apply_box_deltas_graph(boxes, deltas):
     x1 = center_x - 0.5 * width
     y2 = y1 + height
     x2 = x1 + width
+    
+    # box conversion 
     result = tf.stack([y1, x1, y2, x2], axis=1, name="apply_box_deltas_out")
     return result
 
@@ -316,7 +318,9 @@ class ProposalLayer(KE.Layer):
         scores = inputs[0][:, :, 1]
         # Box deltas [batch, num_rois, 4]
         deltas = inputs[1]
+        # restore for normalization of anchor boxes.
         deltas = deltas * np.reshape(self.config.RPN_BBOX_STD_DEV, [1, 1, 4])
+        
         # Anchors
         anchors = inputs[2]
 
@@ -325,12 +329,17 @@ class ProposalLayer(KE.Layer):
         
 
         # keeping top **pre_nms_limit**, and before NMS
+        # config.PRE_NMS_LIMIT = 6000 (anchors in total)
+        # num_anchors ?????
         pre_nms_limit = tf.minimum(self.config.PRE_NMS_LIMIT, tf.shape(anchors)[1])
+        # sort the anchor boxes
         ix = tf.nn.top_k(scores, pre_nms_limit, sorted=True,
                          name="top_anchors").indices
 
         # The computation may separately on different GPUS.
         # tf.gather(params, indices, ....), only pick top K boxes
+        
+        # only collect the necessary data.
         scores = utils.batch_slice([scores, ix], lambda x, y: tf.gather(x, y),
                                    self.config.IMAGES_PER_GPU)
         deltas = utils.batch_slice([deltas, ix], lambda x, y: tf.gather(x, y),
@@ -342,6 +351,8 @@ class ProposalLayer(KE.Layer):
 
         # Apply deltas to anchors to get refined anchors.
         
+        
+        # N = pre_nms_limit
         # [batch, N, (y1, x1, y2, x2)]
         boxes = utils.batch_slice([pre_nms_anchors, deltas],
                                   lambda x, y: apply_box_deltas_graph(x, y),
@@ -368,15 +379,16 @@ class ProposalLayer(KE.Layer):
                 boxes, scores, self.proposal_count,
                 self.nms_threshold, name="rpn_non_max_suppression")
             proposals = tf.gather(boxes, indices)
-            # Pad if needed
+            # Pad if needed, in order to make the proposal has fixed length.
             padding = tf.maximum(self.proposal_count - tf.shape(proposals)[0], 0)
 
             # if the actual proposal number (tf.shape(proposals)[0]) is less than the default proposal counter,
             # Then, we need to append fake proposals.
-
             proposals = tf.pad(proposals, [(0, padding), (0, 0)])
+            
             return proposals
 
+        # =========== It is important to non-maximum suppresion for all the boxes == #
         # Do non-maximum suppresions for all the proposals.
         proposals = utils.batch_slice([boxes, scores], nms,
                                       self.config.IMAGES_PER_GPU)
@@ -440,6 +452,8 @@ class PyramidROIAlign(KE.Layer):
 
         # Feature Maps. List of feature maps from different level of the
         # feature pyramid. Each is [batch, height, width, channels]
+        
+        # The ROI could be cropped from feature maps.
         feature_maps = inputs[2:]
 
         # Assign each ROI to a level in the pyramid based on the ROI area.
@@ -462,6 +476,8 @@ class PyramidROIAlign(KE.Layer):
         roi_level = log2_graph(tf.sqrt(h * w) / (224.0 / tf.sqrt(image_area)))
         roi_level = tf.minimum(5, tf.maximum(
             2, 4 + tf.cast(tf.round(roi_level), tf.int32)))
+        
+        # squeeze the axis=2
         roi_level = tf.squeeze(roi_level, 2)
 
         # roi_level is a tensor
@@ -471,6 +487,8 @@ class PyramidROIAlign(KE.Layer):
         pooled = []
         box_to_level = []
         for i, level in enumerate(range(2, 6)):
+            
+            # collect the corresponding level of bounding boxes
             ix = tf.where(tf.equal(roi_level, level))
             level_boxes = tf.gather_nd(boxes, ix)
 
@@ -480,6 +498,8 @@ class PyramidROIAlign(KE.Layer):
             # Keep track of which box is mapped to which level
             box_to_level.append(ix)
 
+            
+            #  ======= STOP GRADIENT FOR RIO Pooling == ## how and why ##
             # Stop gradient propogation to ROI proposals
             level_boxes = tf.stop_gradient(level_boxes)
             box_indices = tf.stop_gradient(box_indices)
@@ -519,6 +539,8 @@ class PyramidROIAlign(KE.Layer):
         # Re-add the batch dimension
         shape = tf.concat([tf.shape(boxes)[:2], tf.shape(pooled)[1:]], axis=0)
         pooled = tf.reshape(pooled, shape)
+        
+        # Finall pooled features
         return pooled
 
     def compute_output_shape(self, input_shape):
@@ -689,6 +711,10 @@ def detection_targets_graph(proposals, gt_class_ids, gt_boxes, gt_masks, config)
     # convert to mini-mask if needed
     # Compute mask targets
     boxes = positive_rois
+    
+    # If use_mini_mask is True, then rois are converted into the mini-mask size.
+    
+    # === To find out the difference for using mini-mask.
     if config.USE_MINI_MASK:
         # Transform ROI coordinates from normalized image space
         # to normalized mini-mask space.
@@ -706,7 +732,7 @@ def detection_targets_graph(proposals, gt_class_ids, gt_boxes, gt_masks, config)
 
     # To be figured out what's going on here.
     # verify that I am on the develop branch
-    # ====================================  #
+    # ==========================================================================  #
 
     masks = tf.image.crop_and_resize(tf.cast(roi_masks, tf.float32), boxes,
                                      box_ids,
@@ -1015,6 +1041,8 @@ def build_rpn_model(anchor_stride, anchors_per_location, depth):
 #  Feature Pyramid Network Heads
 ############################################################
 
+# == what is GT for MRCNN BBOX === #
+
 def fpn_classifier_graph(rois, feature_maps, image_meta,
                          pool_size, num_classes, train_bn=True,
                          fc_layers_size=1024):
@@ -1133,6 +1161,9 @@ def smooth_l1_loss(y_true, y_pred):
     """
     diff = K.abs(y_true - y_pred)
     less_than_one = K.cast(K.less(diff, 1.0), "float32")
+    # less than 1, using L2 loss
+    # larger than 1, using abs L1 loss.
+    # reduce the effects of outliers.
     loss = (less_than_one * 0.5 * diff**2) + (1 - less_than_one) * (diff - 0.5)
     return loss
 
