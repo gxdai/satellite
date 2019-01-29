@@ -217,7 +217,7 @@ class SatelliteDataset(utils.Dataset):
             json_file: string
             skip_classes: List[string]
         """
-
+        pdb.set_trace()
         def get_gt_info(idx, annotations, category_dict, updated_category_dict):
             # Get the groundtruth information for each image, including label and polygon
             object_list = []
@@ -542,6 +542,9 @@ class SatelliteDataset(utils.Dataset):
 
 
     def visualize(self, image_id):
+        tmp_dir = './tmp'
+        if not os.path.isdir(tmp_dir):
+            os.makedirs(tmp_dir)
         img = self.load_image(image_id)
         mask, class_id = self.load_mask(image_id)
         
@@ -555,14 +558,29 @@ class SatelliteDataset(utils.Dataset):
         total_color_number = len(color_set)
         alpha = 0.6
         print(mask.shape)
-        
+        fontFace = cv2.FONT_HERSHEY_SIMPLEX
+        fontScale = 0.5
         for idx, single_mask in enumerate(mask.transpose(2, 0, 1)):
             index = np.where(single_mask.astype(float)>0.5)
             color_index = np.random.randint(total_color_number)
             img[index] = img[index] * alpha + (1-alpha) * color_set[color_index]
+            
+            # attach class name for visualization at top left corner of mask
+            try:
+
+                min_row = min(index[0])
+                min_col = min(index[1])
+            except ValueError:
+                continue
+            
+            cv2.putText(img, self.idx_to_name_map[class_id[idx]], (min_col, min_row), fontFace, fontScale,  color_set[color_index].tolist(), lineType=cv2.LINE_AA)
+            
+            
+            
+            
         # convert rgb to bgr
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imwrite(str(image_id)+'.png', img)
+        cv2.imwrite(os.path.join(tmp_dir, str(image_id)+'.png'), img)
         
 #         color_set = [[0, 0, 255],
 #                      [0, 255, 0],
@@ -659,18 +677,18 @@ class SatelliteDataset(utils.Dataset):
         category_map, super_category_set = category_map_name_to_super("../data/complete.json")
         # add all the class info
         name_to_idx_map = dict()
+        self.idx_to_name_map = dict()
         for idx, category in enumerate(super_category_set):
             # self.add_class(dataset_name, category['id'], category['name'])
             name_to_idx_map[category] = idx+1
+            self.idx_to_name_map[idx+1] = category
+            
             self.add_class(dataset_name, 
                            idx+1, 
                            category)
 
         if self.mode == 'evaluation':
             return
-        
-        
-        
         
         def calculate_intersection_over_poly1(poly1, poly2):
             """
@@ -893,8 +911,11 @@ class SatelliteDataset(utils.Dataset):
 
         # read all the big images into memory
         image_dict = {tif_file.split('/')[-2]: cv2.imread(tif_file) for tif_file in tif_list} 
-        self.image_dict = {key: cv2.cvtColor(image_dict[key], cv2.COLOR_BGR2RGB) for key in image_dict}
-
+        for key in image_dict:
+            print("Read the {} big image".format(key))
+            image_dict[key] = cv2.cvtColor(image_dict[key], cv2.COLOR_BGR2RGB)
+        # self.image_dict = {key: cv2.cvtColor(image_dict[key], cv2.COLOR_BGR2RGB) for key in image_dict}
+        self.image_dict = image_dict
 
         # get GT dict
         gt_dict = dict()
@@ -920,7 +941,7 @@ class SatelliteDataset(utils.Dataset):
         for big_image_id in json_dict:
             # The shape of the big image
 #             if big_image_id !=  '002':
-#                 continue
+#                  continue
             print("Processing: ", big_image_id)
             
             height, width = image_dict[big_image_id].shape[:2]
@@ -965,7 +986,7 @@ class SatelliteConfig(Config):
 
     # Train on 1 GPU and 8 images per GPU. We put multiple images on each GPU because the images are small.
     # BATCH_SIZE = GPU_COUNT * IMAGES_PER_GPU
-    GPU_COUNT = 2   # 4
+    GPU_COUNT = 4  # 4
     IMAGES_PER_GPU = 4
 
     # For 2019-01-11 
@@ -1020,11 +1041,12 @@ if __name__ == '__main__':
 
     dataset_train = SatelliteDataset()
     dataset_train.config_dataset_with_big_image(dataset_name='satellite',
-                                                root_dir="/home/ubuntu/mask_rcnn/data/big_image")
+                                                root_dir="../data/big_image")
+    dataset_train.prepare()
     image_ids = np.arange(10)
         
-    # for idx in range(len(dataset_train.image_info)):
-    for idx in image_ids:
+    for idx in range(len(dataset_train.image_info)):
+    #for idx in image_ids:
     
 #         print("idx = {}".format(idx))
 #         image = dataset_train.load_image(idx)

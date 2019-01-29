@@ -66,7 +66,7 @@ def main():
 
     dataset_train = SatelliteDataset(dup_flag=dup_flag)
     dataset_train.config_dataset_with_big_image(dataset_name='satellite',
-                                                root_dir="/home/ubuntu/mask_rcnn/data/big_image"
+                                                root_dir="../data/big_image"
                                                )
  
 

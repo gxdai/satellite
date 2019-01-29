@@ -66,7 +66,7 @@ source $HOME/anaconda3/etc/profile.d/conda.sh
 echo "Activate py36"
 source $HOME/anaconda3/bin/activate py36
 
-GPU_ID="2"
+GPU_ID="5,6,7,8"
 CUDA_VISIBLE_DEVICES=$GPU_ID py_gxdai -W ignore $1 --dataset_name $DATASET_NAME \
                                   --dup_flag $DUP_FLAG \
                                   --train_json $TRAIN_JSON \
@@ -75,6 +75,25 @@ CUDA_VISIBLE_DEVICES=$GPU_ID py_gxdai -W ignore $1 --dataset_name $DATASET_NAME 
                                   --checkpoint_dir $CHECKPOINT_DIR \
                                   --instance_number_threshold $INSTANCE_NUMBER_THRESHOLD \
                                   --mode $MODE
+
+elif [[ $(hostname) = "dgx-r59-3.aidc.local" ]]; then
+
+echo "Add conda path"
+source $HOME/anaconda3/etc/profile.d/conda.sh
+
+echo "Activate py36"
+source $HOME/anaconda3/bin/activate py36
+
+GPU_ID="4,5,6,7"
+CUDA_VISIBLE_DEVICES=$GPU_ID py_gxdai -W ignore $1 --dataset_name $DATASET_NAME \
+                                  --dup_flag $DUP_FLAG \
+                                  --train_json $TRAIN_JSON \
+                                  --test_json $TEST_JSON \
+                                  --image_root_dir $IMAGE_ROOT_DIR \
+                                  --checkpoint_dir $CHECKPOINT_DIR \
+                                  --instance_number_threshold $INSTANCE_NUMBER_THRESHOLD \
+                                  --mode $MODE
+
 
 
 
