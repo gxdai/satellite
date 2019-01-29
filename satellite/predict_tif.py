@@ -38,8 +38,8 @@ model_path = "/home/ubuntu/mask_rcnn/logs/model_search/satellite20190103T0208/ma
 
 
 modelName = "MRCNN"
-# modelVersion = "super_category"
-modelVersion = "big_image"
+modelVersion = "super_category"
+# modelVersion = "big_image"
 # modelVersion = "version001"
 
 # parameter settings for local machine
@@ -49,27 +49,35 @@ modelVersion = "big_image"
 
 
 # image_name = '002_DG_Satellite_AZ_Airfield_20180818.tif'
-image_name = '001_client_region.tif'
+# image_name = '001_client_region.tif'
 # image_name = '003_DG_Satellite_DXB_20180612.tif'
 # image_name = '004_DG_Satellite_Fallmouth_Boats_20171006.tif'
 # image_name = "005_DG_Satellite_Norfolk_East_20170601_A1.tif"
 # image_name = "007_DG_Satellite_NM_Airfield_20171121.tif"
+# image_name = "008_DG_Satellite_Rotterdam_Port_Central_20180724.tif"
+image_name = "010_DG_Satellite_Rotterdam_Port_East_Central_20180627.tif"
 # model_path = "/home/gxdai/Documents/mask_rcnn/checkpoint/MRCNN/2/mask_rcnn_satellite_20190111.h5"
 
-# model_path = "/home/gxdai/Documents/mask_rcnn/checkpoint/MRCNN/super_category/mask_rcnn_satellite_0010.h5"
+model_path = "../checkpoint/MRCNN/super_category/mask_rcnn_satellite_0010.h5"
 # model_path = "/home/gxdai/Documents/mask_rcnn/checkpoint/MRCNN/version001/mask_rcnn_satellite_0010.h5"
 
-#model_path = "../checkpoint/MRCNN/big_image/mask_rcnn_satellite_0010.h5"
-model_path = "../checkpoint/MRCNN/big_image/mask_rcnn_satellite_0005.h5"
-
+# model_path = "../checkpoint/MRCNN/big_image/mask_rcnn_satellite_0010.h5"
+# model_path = "../checkpoint/MRCNN/big_image/mask_rcnn_satellite_0005.h5"
 """
 image_folder = '/home/gxdai/ssd/Extra_Experiment_TIF'
 output_folder = '/home/gxdai/ssd/Extra_Experiment_VISUALIZE' 
 """
 
 
-image_folder = '/home/ubuntu/data/satellite/002_007_TIF'
-output_folder = '/home/ubuntu/data/satellite/002_007_VISUALIZE' 
+# the server location
+# image_folder = '/home/ubuntu/data/satellite/002_007_TIF'
+# output_folder = '/home/ubuntu/data/satellite/002_007_VISUALIZE' 
+
+# local location
+image_folder = '/home/gxdai/ssd/002_007_TIF'
+output_folder = '/home/gxdai/ssd/002_007_VISUALIZE' 
+
+
 # image_name = 'DG_Satellite_Norfolk_East_20170601_B1.tif'
 # image_name = '001_15JUL05082509-P2AS_R1C1-BAbas20150507-03-N16B-WV01.tif'
 # image_name = 'grayJUL05082509-P2AS_R1C1-BAbas20150507-03-N16B-WV01.tif'
@@ -180,15 +188,23 @@ dataset_val.config_dataset(dataset_name='satellite',
                                  area_set=area_set 
                             )
 
-"""
 
 
 dataset_val = SatelliteDataset(mode='evaluation')
 dataset_val.config_dataset_with_big_image(dataset_name='satellite', 
                                           root_dir="/home/ubuntu/mask_rcnn/data/big_image"
                                           )
+"""
 
 
+dataset_val = SatelliteDataset(mode='evaluation')
+dataset_val.config_dataset_by_super_category(dataset_name='satellite', 
+                                             json_file=json_file,
+                                             skip_classes=['Road','Body_Of_water','Tree'],
+                                             root_dir='./001',
+                                             instance_number_threshold=instance_number_threshold, 
+                                             area_set=area_set 
+                                            )
 
 
 
